@@ -1,0 +1,11 @@
+Narrator Środowiskowy
+
+Projekt podzielony byłyby na 3 segmenty:
+1. Rejestrowanie i transkrypcja zdań w czasie rzeczywistym.
+2. Analizowanie tekstu przez lekki model np. faster-whisper, po czym przygotowuje odpowiedni nastrój/atmosferę i zdecyduję jaki dźwięk zagrać.
+3. System dźwiękowy który będzie miał wcześniej dostosowane dźwięki "w tle", sytuacyjne dla kilku przykładowych "środowisk" i dzięki informacją z modelu będzie dane wydawał odpowiednie odgłosy/muzykę.
+
+Przykładowe zastosowanie:
+- Dla rodziców którzy czytają bajki dzieciom
+- Do planszowych gier fabularnych
+- Na opowiadanie "strasznych historii" ze znajomymi
