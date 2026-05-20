@@ -11,11 +11,6 @@ ROOT_DIR = Path(__file__).parent.parent
 def get_config():
     with open(ROOT_DIR / "utils" / "config.json", "r") as f:
         return json.load(f)
-    
-# if __name__ == "__main__":
-#     config = get_config()
-#     # print(config)
-#     # print("123")
 
 def rms(audio: np.ndarray) -> float:
     return np.sqrt(np.mean(audio**2))
