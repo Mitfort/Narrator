@@ -1,0 +1,20 @@
+{
+    "Audio_Capture":{
+        "Sample_Rate": 16000,
+        "Channels": 1,
+        "Chunk_Duration": 0.5
+    },
+
+    "VAD":{
+        "Silence_Threshold": 0.01,
+        "Silence_Duration": 1.2,
+        "Min_Audio_Duration": 0.5
+    },
+
+    "Whisper":{
+        "Model": "small",
+        "Language": "pl",
+        "Device": "cpu",
+        "Num_Workers": 4
+    }
+}
