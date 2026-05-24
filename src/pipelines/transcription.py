@@ -11,7 +11,7 @@ from src.pipelines.playback import PlaybackPipeline
 ROOT_DIR = Path(__file__).parent.parent
 
 def get_config():
-    with open(ROOT_DIR / "utils" / "config.json", "r") as f:
+    with open(ROOT_DIR / "utils" / "config.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 def rms(audio: np.ndarray) -> float:
@@ -91,10 +91,10 @@ class TranscriptionPipeline:
             text = self.transcribe(audio)
 
             if text:
-                self.playback_pipeline.process_text(text)
+                corrected_text = self.playback_pipeline.process_text(text)
                 
                 if self.on_transcription:
-                    self.on_transcription(text)
+                    self.on_transcription(corrected_text)
         
         self.buffer = []
         self.silence_sec = 0.0
