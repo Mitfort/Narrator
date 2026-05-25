@@ -1,0 +1,30 @@
+{
+    "deszcz": {
+        "file_key": "heavy_rain",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "background",
+        "group": "weather"
+    },
+    "mżawka": {
+        "file_key": "light_rain",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "background",
+        "group": "weather"
+    },
+    "ptaki ćwierkają": {
+        "file_key": "birds",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "background",
+        "group": "nature"
+    },
+    "grzmot": {
+        "file_key": "thunder",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "event",
+        "group": "weather"
+    }
+}
