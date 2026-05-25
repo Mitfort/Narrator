@@ -35,4 +35,8 @@
     "Fast_Max_Buffer_Duration": 2.0,
     "Fast_Chunk_Duration": 0.4,
     "Fast_Beam_Size": 1
+    ,"Noise_Background_Window": 5.0,
+    "Noise_SNR_Threshold_DB": 6.0,
+    "Noise_Skip_On_Low_SNR": true,
+    "Noise_Raise_Threshold_Factor": 1.5
 }

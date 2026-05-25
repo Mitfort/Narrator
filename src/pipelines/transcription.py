@@ -1,7 +1,9 @@
 import time
+import math
 import numpy as np
 import json
 
+from collections import deque
 from typing import Callable
 from pathlib import Path
 from faster_whisper import WhisperModel
@@ -83,6 +85,14 @@ class TranscriptionPipeline:
 
         self.hotword_detector = HotwordDetector(config)
 
+        self.noise_window_sec: float = config.get("Noise_Background_Window", 5.0)
+        self.noise_snr_threshold_db: float = config.get("Noise_SNR_Threshold_DB", 6.0)
+        self.noise_skip_on_low_snr: bool = config.get("Noise_Skip_On_Low_SNR", True)
+        self.noise_raise_threshold_factor: float = config.get("Noise_Raise_Threshold_Factor", 1.5)
+
+        max_chunks = max(1, int(self.noise_window_sec / max(0.001, self.audio_capture.chunk_duration)))
+        self.noise_buffer: deque[float] = deque(maxlen=max_chunks)
+
         self.transcription_count: int = 0
         self.last_transcription_time: float = 0.0
         self.total_transcription_time: float = 0.0
@@ -104,7 +114,14 @@ class TranscriptionPipeline:
             self.playback_pipeline.close()
 
     def process_chunk(self, chunk: np.ndarray):
-        silent = rms(chunk) < self.silence_threshold
+        chunk_rms = rms(chunk)
+        silent = chunk_rms < self.silence_threshold
+
+        if not self.speaking and silent:
+            try:
+                self.noise_buffer.append(float(chunk_rms))
+            except Exception:
+                pass
 
         if not silent:
             self.buffer.append(chunk)
@@ -148,13 +165,43 @@ class TranscriptionPipeline:
                 f"ratio {realtime_ratio:.2f}x, avg {average_time:.2f}s"
             )
 
-            if text:
-                if self.hotword_detector.has_hotword(text):
-                    corrected_text = self.playback_pipeline.process_text(text)
-                    if self.on_transcription:
-                        self.on_transcription(corrected_text)
+            # compute SNR vs ambient noise
+            audio_rms = rms(audio)
+            ambient = float(np.median(list(self.noise_buffer))) if self.noise_buffer else 0.0
+            eps = 1e-9
+            if ambient <= 0.0:
+                snr_db = float('inf')
+            else:
+                snr_db = 20.0 * math.log10((audio_rms + eps) / (ambient + eps))
+
+            print(f"[TranscriptionPipeline] ambient={ambient:.6f}, audio_rms={audio_rms:.6f}, snr_db={snr_db if snr_db!=float('inf') else 'inf'}")
+
+            if snr_db != float('inf') and snr_db < self.noise_snr_threshold_db:
+                print(f"[TranscriptionPipeline] Low SNR ({snr_db:.2f} dB) below threshold {self.noise_snr_threshold_db} dB.")
+                if self.noise_skip_on_low_snr:
+                    print("[TranscriptionPipeline] Skipping transcription due to high background noise.")
                 else:
-                    print("[TranscriptionPipeline] No hotword detected in this segment.")
+                    # raise current silence threshold temporarily and perform transcription
+                    old_thresh = self.silence_threshold
+                    self.silence_threshold = old_thresh * self.noise_raise_threshold_factor
+                    print(f"[TranscriptionPipeline] Raising silence threshold to {self.silence_threshold:.6f} for this transcription.")
+                    if text:
+                        if self.hotword_detector.has_hotword(text):
+                            corrected_text = self.playback_pipeline.process_text(text)
+                            if self.on_transcription:
+                                self.on_transcription(corrected_text)
+                        else:
+                            print("[TranscriptionPipeline] No hotword detected in this segment.")
+                    # restore
+                    self.silence_threshold = old_thresh
+            else:
+                if text:
+                    if self.hotword_detector.has_hotword(text):
+                        corrected_text = self.playback_pipeline.process_text(text)
+                        if self.on_transcription:
+                            self.on_transcription(corrected_text)
+                    else:
+                        print("[TranscriptionPipeline] No hotword detected in this segment.")
         
         self.buffer = []
         self.buffer_duration = 0.0
