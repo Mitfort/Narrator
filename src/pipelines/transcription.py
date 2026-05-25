@@ -7,6 +7,7 @@ from pathlib import Path
 from faster_whisper import WhisperModel
 from src.modules.audio_capture import AudioCapture
 
+from src.pipelines.hotword_detector import HotwordDetector
 from src.pipelines.playback import PlaybackPipeline
 
 ROOT_DIR = Path(__file__).parent.parent
@@ -60,19 +61,27 @@ class TranscriptionPipeline:
 
         print("[TranscriptionPipeline] Initialized the model\n")
 
+        fast_chunk_duration = config.get("Fast_Chunk_Duration", config["Audio_Capture"]["Chunk_Duration"])
         self.audio_capture = AudioCapture(
             sample_rate=config["Audio_Capture"]["Sample_Rate"],
             channels=config["Audio_Capture"]["Channels"],
-            chunk_duration=config["Audio_Capture"]["Chunk_Duration"]
+            chunk_duration=fast_chunk_duration
         )
 
         self.buffer: list[np.ndarray] = []
+        self.buffer_duration: float = 0.0
         self.silence_sec: float = 0.0
         self.speaking: bool = False
         self.silence_threshold: float = config["VAD"]["Silence_Threshold"]
         self.silence_duration: float = config["VAD"]["Silence_Duration"]
         self.min_audio_duration: float = config["VAD"]["Min_Audio_Duration"]
         self.language: str = config["Whisper"]["Language"]
+
+        self.fast_enabled: bool = config.get("Fast_Path_Enabled", True)
+        self.max_buffer_duration: float = config.get("Fast_Max_Buffer_Duration", 2.0)
+        self.fast_beam_size: int = config.get("Fast_Beam_Size", 1)
+
+        self.hotword_detector = HotwordDetector(config)
 
         self.transcription_count: int = 0
         self.last_transcription_time: float = 0.0
@@ -99,9 +108,12 @@ class TranscriptionPipeline:
 
         if not silent:
             self.buffer.append(chunk)
+            self.buffer_duration += self.audio_capture.chunk_duration
             self.silence_sec = 0.0
             self.speaking = True
-        
+
+            if self.fast_enabled and self.buffer_duration >= self.max_buffer_duration:
+                self.flush_buffer(keep_speaking=True)
         elif self.speaking:
             self.buffer.append(chunk)
             self.silence_sec += self.audio_capture.chunk_duration
@@ -109,7 +121,7 @@ class TranscriptionPipeline:
             if self.silence_sec >= self.silence_duration:
                 self.flush_buffer()
     
-    def flush_buffer(self):
+    def flush_buffer(self, keep_speaking: bool = False):
         if not self.buffer:
             return
         
@@ -137,20 +149,24 @@ class TranscriptionPipeline:
             )
 
             if text:
-                corrected_text = self.playback_pipeline.process_text(text)
-                
-                if self.on_transcription:
-                    self.on_transcription(corrected_text)
+                if self.hotword_detector.has_hotword(text):
+                    corrected_text = self.playback_pipeline.process_text(text)
+                    if self.on_transcription:
+                        self.on_transcription(corrected_text)
+                else:
+                    print("[TranscriptionPipeline] No hotword detected in this segment.")
         
         self.buffer = []
+        self.buffer_duration = 0.0
         self.silence_sec = 0.0
-        self.speaking = False
+        self.speaking = keep_speaking
 
     def transcribe(self, audio: np.ndarray) -> str:
-        segments,info = self.model.transcribe(
+        beam_size = self.fast_beam_size if self.fast_enabled else 5
+        segments, info = self.model.transcribe(
             audio,
             language=self.language,
-            beam_size=5,
+            beam_size=beam_size,
             vad_filter=True,
         )
 

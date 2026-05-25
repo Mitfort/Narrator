@@ -30,5 +30,9 @@
     },
     "Playback_Channels_Path": "playback_channels.json",
     "Playback_Sound_Files_Path": "playback_sound_files.json",
-    "Playback_Sound_Mapping_Path": "playback_sound_mapping.json"
+    "Playback_Sound_Mapping_Path": "playback_sound_mapping.json",
+    "Fast_Path_Enabled": true,
+    "Fast_Max_Buffer_Duration": 2.0,
+    "Fast_Chunk_Duration": 0.4,
+    "Fast_Beam_Size": 1
 }
