@@ -16,5 +16,32 @@
         "Language": "pl",
         "Device": "cpu",
         "Num_Workers": 4
+    },
+    "Lemma_Model": "pl_core_news_sm",
+    "Validation_Threshold": 0.75,
+    "Playback_Default_Max_Duration": 5,
+    "Playback_Transition_Phrases": ["po", "potem", "następnie", "wtedy", "po chwili", "w końcu"],
+    "Playback_Overlap_Phrases": ["jednocześnie", "w tym samym czasie", "razem", "naraz"],
+    "Playback_Mixer": {
+        "frequency": 44100,
+        "size": -16,
+        "channels": 2,
+        "buffer": 512
+    },
+    "Playback_Channels": {
+        "CHANNEL_BG": 0,
+        "CHANNEL_FX": 1
+    },
+    "Playback_Sound_Files": {
+        "heavy_rain": "sounds/heavy_rain.mp3",
+        "light_rain": "sounds/light_rain.mp3",
+        "birds": "sounds/birds.mp3",
+        "thunder": "sounds/thunder.mp3"
+    },
+    "Playback_Sound_Mapping": {
+        "deszcz": {"file_key": "heavy_rain", "is_loop": true, "channel_key": "CHANNEL_BG", "category": "background", "group": "weather"},
+        "mżawka": {"file_key": "light_rain", "is_loop": true, "channel_key": "CHANNEL_BG", "category": "background", "group": "weather"},
+        "ptaki ćwierkają": {"file_key": "birds", "is_loop": true, "channel_key": "CHANNEL_BG", "category": "background", "group": "nature"},
+        "grzmot": {"file_key": "thunder", "is_loop": false, "channel_key": "CHANNEL_FX", "category": "event", "group": "weather"}
     }
 }

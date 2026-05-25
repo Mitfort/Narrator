@@ -6,10 +6,12 @@ from pathlib import Path
 from faster_whisper import WhisperModel
 from src.modules.audio_capture import AudioCapture
 
+from src.pipelines.playback import PlaybackPipeline
+
 ROOT_DIR = Path(__file__).parent.parent
 
 def get_config():
-    with open(ROOT_DIR / "utils" / "config.json", "r") as f:
+    with open(ROOT_DIR / "utils" / "config.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 def rms(audio: np.ndarray) -> float:
@@ -21,6 +23,8 @@ class TranscriptionPipeline:
         self.audio_capture = AudioCapture()
 
         config = get_config()
+
+        self.playback_pipeline = PlaybackPipeline(config=config)
         self.model = WhisperModel(
             config["Whisper"]['Model'],
             device=config["Whisper"]['Device'],
@@ -57,6 +61,7 @@ class TranscriptionPipeline:
             print("\n[TranscriptionPipeline] Stopping transcription pipeline...")
         finally:
             self.audio_capture.stop()
+            self.playback_pipeline.close()
 
     def process_chunk(self, chunk: np.ndarray):
         silent = rms(chunk) < self.silence_threshold
@@ -86,7 +91,10 @@ class TranscriptionPipeline:
             text = self.transcribe(audio)
 
             if text:
-                self.on_transcription(text)
+                corrected_text = self.playback_pipeline.process_text(text)
+                
+                if self.on_transcription:
+                    self.on_transcription(corrected_text)
         
         self.buffer = []
         self.silence_sec = 0.0
@@ -103,5 +111,3 @@ class TranscriptionPipeline:
         segments = list(segments)
         text = " ".join(segment.text for segment in segments)
         return text.strip()
-
-
