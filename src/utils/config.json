@@ -12,9 +12,10 @@
     },
 
     "Whisper":{
-        "Model": "small",
+        "Model": "medium",
         "Language": "pl",
         "Device": "cpu",
+        "Use_Auth_Token": "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",
         "Num_Workers": 4
     },
     "Lemma_Model": "pl_core_news_sm",
