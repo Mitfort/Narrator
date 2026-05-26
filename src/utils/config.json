@@ -28,9 +28,9 @@
         "CHANNEL_FX": 1
     },
     "Playback_Sound_Files": {
-        "heavy_rain": "sounds/rain_loop.mp3",
-        "light_rain": "sounds/light_rain_loop.mp3",
-        "birds": "sounds/birds_loop.mp3",
+        "heavy_rain": "sounds/heavy_rain.mp3",
+        "light_rain": "sounds/light_rain.mp3",
+        "birds": "sounds/birds.mp3",
         "thunder": "sounds/thunder.mp3"
     },
     "Playback_Sound_Mapping": {
