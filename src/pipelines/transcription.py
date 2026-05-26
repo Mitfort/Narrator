@@ -196,6 +196,7 @@ class TranscriptionPipeline:
                     self.silence_threshold = old_thresh
             else:
                 if text:
+                    self.on_transcription(corrected_text)
                     if self.hotword_detector.has_hotword(text):
                         corrected_text = self.playback_pipeline.process_text(text)
                         if self.on_transcription:
