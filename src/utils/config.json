@@ -28,20 +28,15 @@
         "channels": 2,
         "buffer": 512
     },
-    "Playback_Channels": {
-        "CHANNEL_BG": 0,
-        "CHANNEL_FX": 1
-    },
-    "Playback_Sound_Files": {
-        "heavy_rain": "sounds/heavy_rain.mp3",
-        "light_rain": "sounds/light_rain.mp3",
-        "birds": "sounds/birds.mp3",
-        "thunder": "sounds/thunder.mp3"
-    },
-    "Playback_Sound_Mapping": {
-        "deszcz": {"file_key": "heavy_rain", "is_loop": true, "channel_key": "CHANNEL_BG", "category": "background", "group": "weather"},
-        "mżawka": {"file_key": "light_rain", "is_loop": true, "channel_key": "CHANNEL_BG", "category": "background", "group": "weather"},
-        "ptaki ćwierkają": {"file_key": "birds", "is_loop": true, "channel_key": "CHANNEL_BG", "category": "background", "group": "nature"},
-        "grzmot": {"file_key": "thunder", "is_loop": false, "channel_key": "CHANNEL_FX", "category": "event", "group": "weather"}
-    }
+    "Playback_Channels_Path": "playback_channels.json",
+    "Playback_Sound_Files_Path": "playback_sound_files.json",
+    "Playback_Sound_Mapping_Path": "playback_sound_mapping.json",
+    "Fast_Path_Enabled": true,
+    "Fast_Max_Buffer_Duration": 2.0,
+    "Fast_Chunk_Duration": 0.4,
+    "Fast_Beam_Size": 1
+    ,"Noise_Background_Window": 5.0,
+    "Noise_SNR_Threshold_DB": 6.0,
+    "Noise_Skip_On_Low_SNR": true,
+    "Noise_Raise_Threshold_Factor": 1.5
 }
