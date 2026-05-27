@@ -55,10 +55,27 @@ class PlaybackPipeline:
         parsed_mapping: dict[str, dict] = {}
 
         for hotword, cfg in raw_mapping.items():
+            file_path = files_map.get(cfg["file_key"])
+            channel_id = channels_map.get(cfg["channel_key"])
+
+            if not isinstance(file_path, str):
+                print(
+                    f"[PlaybackPipeline] Skipping hotword '{hotword}' — "
+                    f"missing sound file for key '{cfg['file_key']}'."
+                )
+                continue
+
+            if not isinstance(channel_id, int):
+                print(
+                    f"[PlaybackPipeline] Skipping hotword '{hotword}' — "
+                    f"missing channel for key '{cfg['channel_key']}'."
+                )
+                continue
+
             entry = {
-                "file": files_map.get(cfg["file_key"]),
+                "file": file_path,
                 "is_loop": cfg["is_loop"],
-                "channel": channels_map.get(cfg["channel_key"]),
+                "channel": channel_id,
                 "category": cfg.get("category", "background" if cfg["is_loop"] else "event"),
                 "group": cfg.get("group")
             }

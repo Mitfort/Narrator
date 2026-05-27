@@ -43,6 +43,10 @@ class AudioPlayback:
     def _preload_assets(self):
         unique_paths = {config["file"] for config in self.sound_mapping.values()}
         for path in unique_paths:
+            if not isinstance(path, str):
+                print(f"[AudioPlayback] Warning: invalid file path: {path!r}")
+                continue
+
             if os.path.exists(path):
                 self._loaded_sounds[path] = pygame.mixer.Sound(path)
             else:
