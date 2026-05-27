@@ -26,5 +26,61 @@
         "channel_key": "CHANNEL_FX",
         "category": "event",
         "group": "weather"
+    },
+    "deszcz w samochodzie": {
+        "file_key": "car_rain",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "travel",
+        "group": "vehicle"
+    },
+    "silnik samochodu": {
+        "file_key": "car_engine",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "travel",
+        "group": "vehicle"
+    },
+    "pociąg": {
+        "file_key": "train",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "travel",
+        "group": "vehicle"
+    },
+    "hamowanie pociągu": {
+        "file_key": "train_brake",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "event",
+        "group": "vehicle"
+    },
+    "kościelne dzwony": {
+        "file_key": "church_bells",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "environment",
+        "group": "historic"
+    },
+    "tawerna": {
+        "file_key": "My Tavern 1",
+        "is_loop": true,
+        "channel_key": "CHANNEL_BG",
+        "category": "background",
+        "group": "fantasy"
+    },
+    "miecze": {
+        "file_key": "sword_clash",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "combat",
+        "group": "fantasy"
+    },
+    "smok ryczy": {
+        "file_key": "dragon_roar",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "creature",
+        "group": "fantasy"
     }
 }
