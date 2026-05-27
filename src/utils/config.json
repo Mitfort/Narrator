@@ -18,7 +18,7 @@
         "Num_Workers": 4
     },
     "Lemma_Model": "pl_core_news_sm",
-    "Validation_Threshold": 0.75,
+    "Validation_Threshold": 0.67,
     "Playback_Default_Max_Duration": 5,
     "Playback_Transition_Phrases": [
         "po",
@@ -74,7 +74,7 @@
     "Playback_Sound_Files_Path": "playback_sound_files.json",
     "Playback_Sound_Mapping_Path": "playback_sound_mapping.json",
     "Fast_Path_Enabled": true,
-    "Fast_Max_Buffer_Duration": 2.0,
+    "Fast_Max_Buffer_Duration": 5.0,
     "Fast_Chunk_Duration": 0.4,
     "Fast_Beam_Size": 1,
     "Noise_Background_Window": 5.0,
