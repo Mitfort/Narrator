@@ -82,5 +82,12 @@
         "channel_key": "CHANNEL_FX",
         "category": "creature",
         "group": "fantasy"
+    },
+    "Dzień dobry": {
+        "file_key": "vietnam",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "effect",
+        "group": "warfare"
     }
 }
