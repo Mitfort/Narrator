@@ -3,5 +3,13 @@
     "light_rain": "sounds/light_rain.mp3",
     "birds": "sounds/birds.mp3",
     "thunder": "sounds/thunder.mp3",
-    "vietnam": "sounds/goodmorn1.mp3"
+    "vietnam": "sounds/goodmorn1.mp3",
+    "car_rain": "sounds/car_rain.mp3",
+    "car_engine": "sounds/car_engine.mp3",
+    "church_bells": "sounds/church_bells.mp3",
+    "sword_clash": "sounds/sword_clash.mp3",
+    "dragon_roar": "sounds/dragon_roar.mp3",
+    "train": "sounds/train.mp3",
+    "train_brake": "sounds/train_brake.mp3",
+    "My Tavern 1": "sounds/My Tavern 1.mp3"
 }

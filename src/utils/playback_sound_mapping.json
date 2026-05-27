@@ -31,21 +31,21 @@
         "file_key": "car_rain",
         "is_loop": true,
         "channel_key": "CHANNEL_BG",
-        "category": "travel",
+        "category": "background",
         "group": "vehicle"
     },
     "silnik samochodu": {
         "file_key": "car_engine",
         "is_loop": true,
         "channel_key": "CHANNEL_BG",
-        "category": "travel",
+        "category": "background",
         "group": "vehicle"
     },
     "pociąg": {
         "file_key": "train",
         "is_loop": true,
         "channel_key": "CHANNEL_BG",
-        "category": "travel",
+        "category": "background",
         "group": "vehicle"
     },
     "hamowanie pociągu": {
@@ -59,7 +59,7 @@
         "file_key": "church_bells",
         "is_loop": false,
         "channel_key": "CHANNEL_FX",
-        "category": "environment",
+        "category": "event",
         "group": "historic"
     },
     "tawerna": {
@@ -73,21 +73,21 @@
         "file_key": "sword_clash",
         "is_loop": false,
         "channel_key": "CHANNEL_FX",
-        "category": "combat",
+        "category": "event",
         "group": "fantasy"
     },
     "smok ryczy": {
         "file_key": "dragon_roar",
         "is_loop": false,
         "channel_key": "CHANNEL_FX",
-        "category": "creature",
+        "category": "event",
         "group": "fantasy"
     },
     "Dzień dobry": {
         "file_key": "vietnam",
         "is_loop": false,
         "channel_key": "CHANNEL_FX",
-        "category": "effect",
+        "category": "event",
         "group": "warfare"
     }
 }
