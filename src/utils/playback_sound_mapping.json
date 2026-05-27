@@ -27,6 +27,13 @@
         "category": "event",
         "group": "weather"
     },
+    "piorun": {
+        "file_key": "thunder",
+        "is_loop": false,
+        "channel_key": "CHANNEL_FX",
+        "category": "event",
+        "group": "weather"
+    },
     "deszcz w samochodzie": {
         "file_key": "car_rain",
         "is_loop": true,
